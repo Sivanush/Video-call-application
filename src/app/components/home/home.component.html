@@ -1,0 +1,36 @@
+<div class="video-call-container" [ngClass]="{'call-active': isCallStarted$ | async}">
+    <div class="video-wrapper">
+      <video #remoteVideo id="remote-video" *ngIf="isCallStarted$ | async" autoplay playsinline></video>
+      <video #localVideo id="local-video" autoplay playsinline [muted]="true"></video>
+    </div>
+    
+    <div class="controls-wrapper">
+      <ng-container *ngIf="isCallStarted$ | async; else preCallActions">
+        <button mat-fab class="control-btn" [class.active]="!isMuted" (click)="toggleAudio()">
+          <mat-icon>{{ isMuted ? 'mic_off' : 'mic' }}</mat-icon>
+        </button>
+        <button mat-fab class="control-btn" [class.active]="!isVideoOff" (click)="toggleVideo()">
+          <mat-icon>{{ isVideoOff ? 'videocam_off' : 'videocam' }}</mat-icon>
+        </button>
+        <button mat-fab class="control-btn end-call" (click)="endCall()">
+          <mat-icon>call_end</mat-icon>
+        </button>
+      </ng-container>
+      <ng-template #preCallActions>
+        <div class="pre-call-actions">
+          <h2>Welcome to Video Call</h2>
+          <p>Adjust your camera and microphone before starting</p>
+          <div class="action-buttons">
+            <button mat-stroked-button (click)="startCall()">
+              <mat-icon>video_call</mat-icon>
+              Start 
+            </button>
+            <button mat-flat-button color="primary" (click)="joinCall()">
+              <mat-icon>group_add</mat-icon>
+              Join
+            </button>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
